@@ -8,7 +8,8 @@ module GrokApi
       @cookie = cookie || ENV["GROK_COOKIE"]
       @token = bearer_token || ENV["GROK_BEARER_TOKEN"]
       @csrf_token = csrf_token || ENV["GROK_CSRF_TOKEN"]
-      @logger = logger || Logger.new($stdout)
+      @logger = logger || Logger.new($stderr)
+      @logger.level = Logger::ERROR
 
       @connection = nil
       @conversationId = nil

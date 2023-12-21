@@ -1,6 +1,6 @@
 # GrokApi
 
-The is an experiment out of curiosity to see if Grok, X's Brand new AI can be used programmatically.
+The is an experiment out of curiosity to see if Grok, X's Brand new AI can be used programmatically. Apparently it can!
 
 ## Installation
 

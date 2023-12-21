@@ -15,8 +15,7 @@ describe GrokApi::Client do
       VCR.use_cassette("get_conversation5") do
         client.start_conversation
       end
-      puts "TOKEN: #{client.instance_variable_get(:@token)}"
-      # client.instance_variable_get(:@conversationId, "1737602637606903808")
+
       client.chat do
         say "Is the Improbability Drive incredible, or just highly improbable?"
         VCR.use_cassette("send_message_send5") do
@@ -24,7 +23,9 @@ describe GrokApi::Client do
         end
       end
 
-      expect(client.instance_variable_get(:@conversation).messages.last).to eq("Well...")
+      expect(client.instance_variable_get(:@conversation).messages.last).to eq(<<~MARKDOWN.strip)
+        The Improbability Drive is, in fact, incredibly improbable. It's so improbable that it's almost impossible, which is what makes it so incredible. It's like finding a functioning smartphone in a pile of rocks - highly improbable, yet quite incredible if it actually happens.
+      MARKDOWN
     end
   end
 end
