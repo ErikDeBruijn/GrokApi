@@ -36,13 +36,6 @@ module GrokApi
     end
 
     def chat!
-      puts "Going to send request... ConversationId: #{@conversationId}"
-      send_messages
-    end
-
-    private
-
-    def send_messages
       body = {
         "responses" => @conversation.messages.map { |message| { "message" => message, "sender" => 1 } },
         "systemPromptName" => @fun_mode ? "fun" : "",
@@ -63,6 +56,8 @@ module GrokApi
         @logger.error("Error: #{response.status}")
       end
     end
+
+    private
 
     def api_headers
       {
