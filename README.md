@@ -16,10 +16,23 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ```ruby
 client = GrokApi::Client.new
-conversation = client.start_conversation
-conversation << "What is the latest in AI?"
-conversation.chat!
+client.start_conversation
+client.chat do
+  say "Is the Improbability Drive incredible, or just highly improbable?"
+  chat!
+end
 ```
+
+```md
+2023-12-21 01:24:00 +0100: 💬 New conversation started on "Is the Improbability Drive incredible, or just hig"
+2023-12-21 01:24:00 +0100: 💬 You: Is the Improbability Drive incredible, or just highly improbable?
+Going to send request... ConversationId: 1737623745068449792
+2023-12-21 01:24:00 +0100: 🤖 Grok: The Improbability Drive is, in fact, incredibly improbable. It's so improbable that it's almost impossible, which is what makes it so incredible. It's like finding a functioning smartphone in a pile of rocks - highly improbable, yet quite incredible if it actually happens.
+```
+
+## ToDo's:
+- [ ] auto start a conversation if we don't have one yet `start_conversation unless @conversationId`
+- [ ] use streaming API to parse messages during flushing of the output buffer
 
 ## Development
 
@@ -29,7 +42,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/GrokApi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/GrokApi/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/erikdebruijn/GrokApi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/GrokApi/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 

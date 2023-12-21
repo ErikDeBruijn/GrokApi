@@ -4,9 +4,27 @@ describe GrokApi::Client do
   describe "#start_conversation" do
     it "gets a conversationId" do
       client = GrokApi::Client.new(logger: logger)
-      VCR.use_cassette("get_conversation3") do
-        expect(client.start_conversation).to eq("1737602637606903808")
+      VCR.use_cassette("get_conversation") do
+        client.start_conversation
       end
+      expect(client.instance_variable_get(:@conversationId)).to eq("1234")
+    end
+
+    it "sends a message" do
+      client = GrokApi::Client.new(logger: Logger.new(STDOUT))
+      VCR.use_cassette("get_conversation5") do
+        client.start_conversation
+      end
+      puts "TOKEN: #{client.instance_variable_get(:@token)}"
+      # client.instance_variable_get(:@conversationId, "1737602637606903808")
+      client.chat do
+        say "Is the Improbability Drive incredible, or just highly improbable?"
+        VCR.use_cassette("send_message_send5") do
+          chat!
+        end
+      end
+
+      expect(client.instance_variable_get(:@conversation).messages.last).to eq("Well...")
     end
   end
 end
