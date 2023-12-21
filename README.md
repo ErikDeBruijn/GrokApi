@@ -13,7 +13,22 @@ If bundler is not being used to manage dependencies, install the gem by executin
     $ gem install grok_api
 
 ## Usage
+You'll need to set the following environment variables:
+ - `GROK_BEARER_TOKEN`. The `AAAAAAAAAAAAAAAAAAAA` etc. that comes after `Bearer`
+ - `GROK_COOKIE`. Starts with `guest_id=v1%3A168`
+ - `GROK_CSRF_TOKEN`. Started with `b4caa52c` in my case.
 
+To get these, open X.com, access Grok and open the Javascript Console. Make sure the Network panel is selected and the session is being recorded.
+Then perform a query on grok. Filter on `Fetch/XHR` to find a valid request. Copy the request with headers. I used Copy as cURL.
+
+You can apply this at the top of your script, as long as you don't share that section with others:
+```ruby
+ENV['GROK_BEARER_TOKEN'] = 'your_token_string_here'
+ENV['GROK_COOKIE'] = 'your_cookie_string_here'
+ENV['GROK_CSRF_TOKEN'] = 'your_csrf_token_here'
+```
+
+Then you can start a conversation and chat with Grok:
 ```ruby
 client = GrokApi::Client.new
 client.start_conversation
@@ -23,6 +38,7 @@ client.chat do
 end
 ```
 
+The chat will be printed by default:
 ```md
 2023-12-21 01:24:00 +0100: 💬 New conversation started on "Is the Improbability Drive incredible, or just hig"
 2023-12-21 01:24:00 +0100: 💬 You: Is the Improbability Drive incredible, or just highly improbable?
