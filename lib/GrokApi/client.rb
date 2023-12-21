@@ -4,7 +4,7 @@ require "faraday"
 
 module GrokApi
   class Client
-    def initialize(cookie: nil, bearer_token: nil, csrf_token: nil, logger: nil)
+    def initialize(fun_mode: true, cookie: nil, bearer_token: nil, csrf_token: nil, logger: nil)
       @cookie = cookie || ENV["GROK_COOKIE"]
       @token = bearer_token || ENV["GROK_BEARER_TOKEN"]
       @csrf_token = csrf_token || ENV["GROK_CSRF_TOKEN"]
@@ -13,6 +13,7 @@ module GrokApi
 
       @connection = nil
       @conversationId = nil
+      @fun_mode = fun_mode
       @conversation = Conversation.new
     end
 
@@ -44,7 +45,7 @@ module GrokApi
     def send_messages
       body = {
         "responses" => @conversation.messages.map { |message| { "message" => message, "sender" => 1 } },
-        "systemPromptName" => "fun",
+        "systemPromptName" => @fun_mode ? "fun" : "",
         "conversationId" => @conversationId
       }.to_json
 

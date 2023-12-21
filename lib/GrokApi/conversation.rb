@@ -16,6 +16,7 @@ module GrokApi
       if @messages.empty?
         # trim message to first line, max. 50 characters:
         @topic = message.split("\n").first[0..49]
+        @logger.info("💬 ____________________________________________________________")
         @logger.info("💬 New conversation started on \"#{@topic}\"")
       end
       @logger.info("💬 You: #{message}")

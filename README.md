@@ -2,6 +2,14 @@
 
 The is an experiment out of curiosity to see if Grok, X's Brand new AI can be used programmatically. Apparently it can!
 
+Really cool use cases are:
+- Grok as a voice-assistant to be used to control your home or vehicle, etc. 
+- You can even ask it to output valid, well-formatted JSON enabling you to parse real-time events programmatically.
+
+## Pre-requisites
+
+You'll need to have a X premium+ membership. As of the time of writing this, Grok is in an early-access program, to which you can apply [here](https://grok.x.ai/).
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
@@ -47,8 +55,13 @@ Going to send request... ConversationId: 1737623745068449792
 ```
 
 ## ToDo's:
+- [ ] Add a dot env example someone can copy (?).
+- [ ] properly support a continued conversation (keep track of and include the conversation-stack)
 - [ ] auto start a conversation if we don't have one yet `start_conversation unless @conversationId`
 - [ ] use streaming API to parse messages during flushing of the output buffer
+- [ ] add a chat interface `bin/chat`
+- [ ] host an openAI compatible API?
+- [ ] Proxy?
 
 ## Development
 
@@ -58,7 +71,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/erikdebruijn/GrokApi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/GrokApi/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/erikdebruijn/GrokApi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/ErikDeBruijn/GrokApi/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -66,4 +79,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the GrokApi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/GrokApi/blob/main/CODE_OF_CONDUCT.md).
+Everyone interacting in the GrokApi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/ErikDeBruijn/GrokApi/blob/main/CODE_OF_CONDUCT.md).
