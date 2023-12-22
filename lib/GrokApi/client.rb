@@ -19,6 +19,7 @@ module GrokApi
 
     def start_conversation
       response = connection.get("/i/api/2/grok/conversation_id.json")
+      raise "Response code #{response.status}" unless response.success?
       raise "Invalid response: #{response.body}" unless response.body["conversationId"]
 
       @conversationId = response.body["conversationId"]
@@ -37,7 +38,7 @@ module GrokApi
 
     def chat!
       body = {
-        "responses" => @conversation.messages.map { |message| { "message" => message, "sender" => 1 } },
+        "responses" => @conversation.messages,
         "systemPromptName" => @fun_mode ? "fun" : "",
         "conversationId" => @conversationId
       }.to_json
@@ -84,7 +85,7 @@ module GrokApi
         faraday.headers["x-csrf-token"] = @csrf_token
 
         faraday.response :json
-        faraday.response :logger if @logger
+        # faraday.response :logger if @logger
       end
     end
   end

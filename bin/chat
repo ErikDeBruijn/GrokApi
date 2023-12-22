@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+
+require "dotenv/load"
+
+require "GrokApi"
+require "GrokApi/client"
+require "GrokApi/conversation"
+
+puts "Welcome to the GrokApi chat!"
+
+client = GrokApi::Client.new(logger: false)
+client.start_conversation
+
+
+client.chat do
+  print "You: "
+  say gets.strip
+  chat!
+  say gets.strip
+  chat!
+end
+
+pp client.instance_variable_get(:@conversation).messages

@@ -76,7 +76,7 @@ describe GrokApi::Client do
             {"result":{"sender":"ASSISTANT","message":".","query":""}}
             {"userChatItemId":"1737845452014309376","agentChatItemId":"1737845474835517440"}
           JSONLINES
-        )
+      )
 
       client = GrokApi::Client.new(fun_mode: false, logger: Logger.new($stdout))
       client.start_conversation
@@ -88,9 +88,56 @@ describe GrokApi::Client do
         chat!
       end
 
-      expect(client.instance_variable_get(:@conversation).messages.last).to eq(<<~MARKDOWN.strip)
+      expect(client.instance_variable_get(:@conversation).messages.last["message"]).to eq(<<~MARKDOWN.strip)
         The Improbability Drive is a fictional concept from Douglas Adams's "The Hitchhiker's Guide to the Galaxy" series. In the context of the story, it is an incredible device that allows a spaceship to pass through every point in the Universe simultaneously. However, as it is a fictional creation, it is also highly improbable in the real world.
       MARKDOWN
+    end
+
+    it "sends subsequent messages" do
+      stub_conversation_id
+      stub_request(:post, "https://api.twitter.com/2/grok/add_response.json")
+        .with(
+          body: '{"responses":[{"message":"Is the Improbability Drive incredible, or just highly improbable?","sender":1}],"systemPromptName":"fun","conversationId":"1234"}',
+          headers: {
+            "Accept" => "*/*",
+            "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+            "Content-Type" => "text/plain;charset=UTF-8",
+            "Dnt" => "1",
+            "Referer" => "https://twitter.com/",
+            "Sec-Ch-Ua" => '"Not_A Brand";v="8", "Chromium";v="120"',
+            "Sec-Ch-Ua-Mobile" => "?0",
+            "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "X-Twitter-Client-Language" => "en"
+          }
+        )
+        .to_return(
+          status: 200,
+          headers: {
+            "Date" => "Thu, 21 Dec 2023 14:40:15 GMT",
+            "Server" => "tsa_b",
+            "Cache-Control" => "no-cache, no-store, max-age=0",
+            "Strict-Transport-Security" => "max-age=631138519",
+            "Transfer-Encoding" => "chunked"
+          },
+          body: <<~JSONLINES
+            {"result":{"sender":"ASSISTANT","message":"The Impro","query":""}}
+            {"result":{"sender":"ASSISTANT","message":"bability","query":""}}
+            {"result":{"sender":"ASSISTANT","message":" Drive is","query":""}}
+          JSONLINES
+        )
+
+      client = GrokApi::Client.new(logger: logger)
+      client.start_conversation
+      client.chat do
+        say "Is the Improbability Drive incredible, or just highly improbable?"
+        # VCR.use_cassette("conversation-1.chat1") do
+          chat!
+        # end
+        say "From what book was that reference, again?"
+        VCR.use_cassette("conversation-1.chat2") do
+          chat!
+        end
+      end
     end
   end
 

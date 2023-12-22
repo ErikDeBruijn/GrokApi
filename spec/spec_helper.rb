@@ -7,6 +7,7 @@ require_relative "../lib/GrokAPI/conversation"
 require "rspec"
 require "vcr"
 require "webmock/rspec"
+require "dotenv/load"
 
 VCR.configure do |c|
   c.cassette_library_dir = "spec/fixtures/vcr"

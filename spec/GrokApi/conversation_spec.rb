@@ -4,6 +4,7 @@ describe GrokApi::Conversation do
 
     conversation << "Is the Improbability Drive incredible, or just highly improbable?"
 
-    expect(conversation.messages).to eq(["Is the Improbability Drive incredible, or just highly improbable?"])
+    expect(conversation.messages.first)
+      .to eq({ "message" => "Is the Improbability Drive incredible, or just highly improbable?", "sender" => 1 })
   end
 end

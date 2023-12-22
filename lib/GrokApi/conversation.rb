@@ -20,12 +20,12 @@ module GrokApi
         @logger.info("💬 New conversation started on \"#{@topic}\"")
       end
       @logger.info("💬 You: #{message}")
-      @messages << message
+      @messages << { "message" => message, "sender" => 1 }
     end
 
     def assistant_response(message)
       @logger.info("🤖 Grok: #{message}")
-      @messages << message
+      @messages << { "message" => message, "sender" => 2 }
     end
   end
 end
